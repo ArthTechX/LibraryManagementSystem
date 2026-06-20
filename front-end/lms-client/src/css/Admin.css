@@ -1,0 +1,88 @@
+.admin-tabs {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--border-glass);
+    padding-bottom: var(--space-sm);
+}
+
+.admin-tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    transition: all var(--transition-fast);
+}
+.admin-tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-glass-light);
+}
+.admin-tab.active {
+    color: var(--color-primary-light);
+    background: var(--bg-glass-light);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.admin-actions {
+    margin-bottom: var(--space-lg);
+}
+
+.admin-form {
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
+}
+.admin-form:hover { transform: none; }
+.admin-form h3 {
+    margin-bottom: var(--space-lg);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-glass);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+.admin-table th {
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 16px;
+    text-align: left;
+    white-space: nowrap;
+}
+.admin-table td {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-glass);
+    color: var(--text-primary);
+}
+.admin-table tbody tr:hover {
+    background: var(--bg-glass-light);
+}
+.td-title { font-weight: 500; max-width: 200px; }
+.td-isbn { font-family: monospace; font-size: 0.8rem; color: var(--text-muted); }
+.td-actions {
+    display: flex;
+    gap: var(--space-xs);
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .admin-tabs { flex-wrap: wrap; }
+}

@@ -1,17 +1,17 @@
 package com.habeebcycle.lms.service.userservice.payload;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class SignUpRequest {
 
     @NotBlank
-    @Size(min = 4, max = 60)
+    @Size(min = 2, max = 60)
     private String firstName;
 
     @NotBlank
-    @Size(min = 4, max = 60)
+    @Size(min = 2, max = 60)
     private String lastName;
 
     @NotBlank

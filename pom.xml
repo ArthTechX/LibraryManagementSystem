@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module></module>
+        <module>back-end/services/user-service</module>
     </modules>
 
 </project>

@@ -1,6 +1,6 @@
 package com.habeebcycle.lms.service.userservice.payload;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class SignInRequest {
 

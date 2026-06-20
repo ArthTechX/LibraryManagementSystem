@@ -2,7 +2,7 @@ package com.habeebcycle.lms.service.userservice.model;
 
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity

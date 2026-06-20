@@ -1,54 +1,109 @@
-import React from "react";
-import {Nav, Navbar, NavDropdown} from "react-bootstrap";
-
-import BrandLogo from "../images/lms512.png"
-import {Link} from "react-router-dom";
-import { faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome/index.es";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import '../css/Header.css';
 
 export default function Header() {
+    const { isAuthenticated, isAdmin, currentUser, logout } = useAuth();
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const history = useHistory();
+
+    const handleLogout = () => {
+        logout();
+        setDropdownOpen(false);
+        history.push('/');
+    };
 
     return (
-        <Navbar collapseOnSelect expand="lg" className="nav-bar" sticky="top">
-            <Link to={""} className="navbar-brand">
-                <img src={BrandLogo} width="50" height="50" alt="LMS"/>
-            </Link>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="mr-auto">
-                    <Link to={""} className="nav-link nav-bar-link">Home</Link>
-                    <Link to={"#features"} className="nav-link nav-bar-link">Features</Link>
-                    <Link to={"#catalogues"} className="nav-link nav-bar-link">Catalogues</Link>
-                    <NavDropdown title="Sections" id="nav-dropdown" className="nav-bar-link">
-                        <Link to="#action/3.2" className="nav-bar-action nav-link dropdown-item">Books</Link>
-                        <Link to="#action/3.2" className="nav-bar-action nav-link dropdown-item">Journals</Link>
-                        <Link to="#action/3.2" className="nav-bar-action nav-link dropdown-item">Daily</Link>
-                        <NavDropdown.Divider />
-                        <Link to="#action/3.2" className="nav-bar-action nav-link dropdown-item">Personal</Link>
-                    </NavDropdown>
-                </Nav>
-                <Nav>
-                    <Link to={"/login"} className="nav-link nav-bar-action">Log In</Link>
-                    <Link to={"/register"} className="nav-link nav-bar-action">Register</Link>
+        <nav className="lms-navbar" id="main-navbar">
+            <div className="nav-container">
+                <Link to="/" className="nav-brand" id="nav-brand">
+                    <div className="brand-icon">📚</div>
+                    <span className="brand-text">LMS</span>
+                </Link>
 
-                    <NavDropdown alignRight title={<FontAwesomeIcon size="2x" className="drop" icon={faUserCircle}/>}  id="collasible-nav-dropdown">
-                        <div className="profile">
-                            <div className="user-full-name-info">
-                                Habeeb Okunade
-                            </div>
-                            <div className="username-info">
-                                @habeebCycle
-                            </div>
+                <button
+                    className={`mobile-toggle ${mobileOpen ? 'active' : ''}`}
+                    onClick={() => setMobileOpen(!mobileOpen)}
+                    id="mobile-toggle"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <div className={`nav-links ${mobileOpen ? 'active' : ''}`}>
+                    <Link to="/" className="nav-link" onClick={() => setMobileOpen(false)}>Home</Link>
+                    <Link to="/books" className="nav-link" onClick={() => setMobileOpen(false)}>Catalog</Link>
+                    {isAuthenticated && (
+                        <Link to="/dashboard" className="nav-link" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+                    )}
+                    {isAdmin && (
+                        <Link to="/admin" className="nav-link nav-link-admin" onClick={() => setMobileOpen(false)}>Admin</Link>
+                    )}
+                </div>
+
+                <div className="nav-actions">
+                    {!isAuthenticated ? (
+                        <>
+                            <Link to="/login" className="btn-outline btn-sm" id="nav-login-btn">Log In</Link>
+                            <Link to="/register" className="btn-primary btn-sm" id="nav-register-btn">Register</Link>
+                        </>
+                    ) : (
+                        <div className="user-menu">
+                            <button
+                                className="user-avatar-btn"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                                id="user-menu-btn"
+                            >
+                                <div className="user-avatar">
+                                    {currentUser?.firstName?.charAt(0)}{currentUser?.lastName?.charAt(0)}
+                                </div>
+                            </button>
+
+                            {dropdownOpen && (
+                                <div className="user-dropdown animate-fade-in" id="user-dropdown">
+                                    <div className="dropdown-header">
+                                        <div className="dropdown-name">
+                                            {currentUser?.firstName} {currentUser?.lastName}
+                                        </div>
+                                        <div className="dropdown-email">@{currentUser?.username}</div>
+                                    </div>
+                                    <div className="dropdown-divider"></div>
+                                    <Link
+                                        to="/profile"
+                                        className="dropdown-item"
+                                        onClick={() => setDropdownOpen(false)}
+                                    >
+                                        👤 Profile
+                                    </Link>
+                                    <Link
+                                        to="/dashboard"
+                                        className="dropdown-item"
+                                        onClick={() => setDropdownOpen(false)}
+                                    >
+                                        📊 Dashboard
+                                    </Link>
+                                    {isAdmin && (
+                                        <Link
+                                            to="/admin"
+                                            className="dropdown-item"
+                                            onClick={() => setDropdownOpen(false)}
+                                        >
+                                            ⚙️ Admin Panel
+                                        </Link>
+                                    )}
+                                    <div className="dropdown-divider"></div>
+                                    <button className="dropdown-item dropdown-logout" onClick={handleLogout}>
+                                        🚪 Logout
+                                    </button>
+                                </div>
+                            )}
                         </div>
-                        <NavDropdown.Divider />
-                        <Link to="#action/3.2" className="nav-bar-action nav-link dropdown-item">Another action</Link>
-                        <Link to="#action/3.3" className="nav-bar-action nav-link dropdown-item">Something</Link>
-                        <NavDropdown.Divider />
-                        <Link to="#action/3.4" className="nav-bar-action nav-link dropdown-item">Logout</Link>
-                    </NavDropdown>
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
+                    )}
+                </div>
+            </div>
+        </nav>
     );
 }
