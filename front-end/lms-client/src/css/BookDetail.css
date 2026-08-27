@@ -10,6 +10,7 @@
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
+    border-radius: 5px;
 }
 
 .book-detail-image img {
